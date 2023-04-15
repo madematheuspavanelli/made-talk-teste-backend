@@ -1,30 +1,20 @@
-import { Item } from "../Item/Item";
+type Product = {
+  name: string;
+  price: number;
+};
 
 export class Cart {
-  private _items: Item[] = [];
-  private _subtotal = 0;
+  private products: Product[] = [];
 
-  constructor() {}
-
-  get items(): Item[] {
-    return this._items;
+  addProduct(product: Product) {
+    this.products.push(product);
   }
 
-  get subtotal(): number {
-    return this._items.reduce((total, item) => {
-      return (total += item.product.price * item.quantity);
-    }, 0);
+  removeProduct(name: string) {
+    this.products = this.products.filter((product) => product.name !== name);
   }
 
-  add(newItem: Item): void {
-    const productAlreadyAdded = this._items.find(
-      (item) => item.product.name === newItem.product.name
-    );
-
-    // if (productAlreadyAdded) {
-    //   productAlreadyAdded.add();
-    // }
-
-    this._items.push(newItem);
+  getTotalPrice() {
+    return this.products.reduce((total, product) => total + product.price, 0);
   }
 }
